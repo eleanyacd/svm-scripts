@@ -69,7 +69,7 @@ for line in csv_input:
     
     # interleave the two
     feature_list = []
-    for i in range(1, len(svm_line)):
+    for i in range(1, len(svm_line) + 1):
         feature_list.append(feature_nums.pop(0) + ":" + svm_line.pop(0))
 
     # format into a string
