@@ -22,7 +22,7 @@ def f_svm(k, cval, jval, model_name, predict_file, pr_file)
 	return result_R
 end
 
-for t in 0..4
+for t in 0..3
 	for p in 1..10
 		cval = 10 ** (-p)
 		for q in 1..10
