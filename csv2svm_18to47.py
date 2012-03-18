@@ -3,10 +3,10 @@
 # svm required format for training and test files.
 #
 # The script takes all the paramesters for samples
-# in age range 18-47.
+# in age range 18 to 47.
 #
 # Three files are generated:
-# *_train.svm is the file for training.
+# *_18to47_train.svm is the file for training.
 # *_18to47_ref.svm is the reference file to generate PR
 # *_18to47_test.svm is the file used for test
 # bn82, 2012                                        
@@ -24,8 +24,8 @@ try:
     csv_filename = raw_input('Enter in csv filename: ')
     out_filename = csv_filename.split('.')
     raw_name = out_filename.pop(0)
-    out_filename = raw_name + "_train" + ".svm"
-    out_testref = raw_name + "_18o47_ref" + ".svm"
+    out_filename = raw_name + "_18to47_train" + ".svm"
+    out_testref = raw_name + "_18to47_ref" + ".svm"
     out_testfile = raw_name + "_18to47_test" + ".svm"
 
     csv_file = open(csv_filename, 'rb')
@@ -98,6 +98,11 @@ for line in csv_input:
 
     if flag == 1:
         k -= 1
+        if k == 0:
+            print j
+            # prepare for the other output file
+            first_line = True        
+            j = 1
         continue
     
    # format into a string
