@@ -50,10 +50,10 @@ for ref_line in ref_file:
 sample_string = "smample_size: " + str(i) + "\n\r"
 
 if ref_default == 0: R = -1
-else: R = float(catch / ref_default)
+else: R = float(catch) / float(ref_default)
 
 if res_default == 0: P = -1
-else: P = float(catch / res_default)
+else: P = float(catch) / float(res_default)
 
 P_string = "P: " + str(P) + "\n\r"
 R_string = "R: " + str(R) + "\n\r"
@@ -70,5 +70,4 @@ out_file.close()
 res_file.close()
 ref_file.close()
 
-print sample_string.strip()
-print "Done"
+
