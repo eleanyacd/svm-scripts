@@ -10,8 +10,8 @@ R = []
 
 # run svm
 def f_svm(k, cval, jval, model_name, predict_file, pr_file)
-	system "./svm_learn -t #{k} -c #{cval} -j #{jval} cs-training_18to47_train.svm #{model_name}"
-	system "./svm_classify cs-training_18to47_test.svm #{model_name} #{predict_file}"
+	system "./svm_learn -v 0 -t #{k} -c #{cval} -j #{jval} cs-training_18to47_train.svm #{model_name}"
+	system "./svm_classify -v 0 cs-training_18to47_test.svm #{model_name} #{predict_file}"
 	system "python PR.py cs-training_18to47_ref.svm #{predict_file} #{pr_file}"
 	# get recall
 	file = File.open(pr_file, "r")
@@ -22,10 +22,14 @@ def f_svm(k, cval, jval, model_name, predict_file, pr_file)
 	return result_R
 end
 
-for t in 0..3
+puts"Start..."
+
+t = 3
+	puts "kernel option #{t}"
 	for p in 1..10
 		cval = 10 ** (-p)
 		for q in 1..10
+			puts "p: #{p}, q: #{q}"
 			jval = 10 ** (-q)
 			model_name = "model_#{t}_#{cval}_#{jval}"
 			predict_file = "result_#{t}_#{cval}_#{jval}.txt"
@@ -34,7 +38,6 @@ for t in 0..3
 			R.push([result_R,model_name])
 		end
 	end
-end
 
 # sort by increasing R value
 R_sort = R.sort {|a, b| a[0] <=> b[0]}
@@ -49,4 +52,4 @@ R_sort.each do |elem|
 end
 outfile.close()
 
-
+puts "DONE!"

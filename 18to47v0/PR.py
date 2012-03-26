@@ -70,5 +70,3 @@ out_file.close()
 res_file.close()
 ref_file.close()
 
-print sample_string.strip()
-print "Done"
