@@ -65,6 +65,7 @@ out_file.write(R_string)
 out_file.write(ref_string)
 out_file.write(res_string)
 out_file.write(sample_string)
+out_file.write(str(catch))
 
 out_file.close()
 res_file.close()
