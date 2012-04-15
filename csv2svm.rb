@@ -12,10 +12,15 @@ require 'csv'
 def write_into_file(flag, row, output)
 	for i in 0..(row.length()-1)
 		if i != flag or flag == 0
+			if i < flag or flag == 0:
+				j = i
+			else
+				j = i -1
+			end
 			if i == row.length()-1
-				msg = "#{i}:" + row[i] + "\n"
+				msg = "#{j}:" + row[i] + "\n"
 			elsif i > 0 
-				msg = "#{i}:" + row[i] + " "
+				msg = "#{j}:" + row[i] + " "
 			else
 				if row[0] == '0' 
 					msg = "-1 "
@@ -60,8 +65,8 @@ while count < 150000
 		write_into_file(flag, row, output)
 	else # nothing is missing. 
 		# flag here indicates which file it is writing in.
-		for flag in 0..10
-			write_into_file(flag, row, output)
+		for j in 0..10
+			write_into_file(j, row, output)
 		end
 	end
 	row = reader.shift
