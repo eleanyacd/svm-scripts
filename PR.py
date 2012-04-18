@@ -6,48 +6,54 @@
 ##
 
 import sys
+import math
 
-ref_name = sys.argv[1]
-res_name = sys.argv[2]
-out_name = sys.argv[3]
-try:
-	#open two source files
-	ref_file = open(ref_name,'r')
-	res_file = open(res_name, 'r')
-
-except (IndexError, IOError) as e:
-        print "error in getting source file"
-        exit(1)
+threshold = sys.argv[1]
 
 try:
-        out_file = open(out_name,'w')      
+        out_file = open("PR_result.txt",'w')      
 except IOError as e:
         print "Error in create a output file"
         exit(1)
 
-# initialize vareiables
+# initialize variables
 ref_default = 0
 res_default = 0
 catch = 0  # catch = (ref_default ^ res_default)
 # R = (num of (ref_default ^ res_default))/ref_default
 # P = (num of (ref_default ^ res_default))/res_default
-i = 0
-for ref_line in ref_file:
-        res_line = res_file.readline()
-        res_val = float(res_line.strip().split(' ')[0])
-        ref_val = float(ref_line.strip().split(' ')[0])
+j = 0
+for i in range(1,6):
+        res_name = "result"+str(i)+".txt"
+        ref_name = "ref"+str(i)+".svm"
 
-        if (res_val < 0 and ref_val < 0):
-                ref_default += 1
-                res_default += 1
-                catch += 1
-        elif (res_val < 0):
-                res_default += 1
-        elif (ref_val < 0):
-                ref_default += 1
-        i += 1
+        try:
+                #open two source files
+        	ref_file = open(ref_name,'r')
+        	res_file = open(res_name, 'r')
 
-sample_string = "smample_size: " + str(i) + "\n\r"
+        except (IndexError, IOError) as e:
+                print "error in getting source file"
+                exit(1)
+        
+        for ref_line in ref_file:
+                res_line = res_file.readline()
+                res_val = float(res_line.strip().split(' ')[0])
+                res_val = 1/(1 + math.exp(-res_val))
+                ref_val = int(ref_line.strip().split(' ')[0])
+        
+                if (res_val < threshold and ref_val == -1):
+                        ref_default += 1
+                        res_default += 1
+                        catch += 1
+                elif (res_val < threshold):
+                        res_default += 1
+                elif (ref_val == -1):
+                        ref_default += 1
+                j += 1
+        
+
+sample_string = "smample_size: " + str(j) + "\n\r"
 
 if ref_default == 0: R = -1
 else: R = float(catch) / float(ref_default)

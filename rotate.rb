@@ -1,11 +1,11 @@
-# create testing file and training file for svm
+# create testing file, reference file and training file for svm
 # get 1/5 of the data in original file as testing data
 # get 4/5 of the data in the orginal file as training data
 #
 # bn82, Apr,14,2012
 #
 
-filename = "col0.svm"
+filename = ARGV[0]
 partition = 5
 
 input = File.open(filename, "r")
@@ -24,7 +24,7 @@ counts  = counts/partition
 input = File.open(filename, "r")
 
 for i in 1..partition
-	tmp = File.new("tmp#{i}","w")
+	tmp = File.new("ref#{i}.svm","w")
 	for j in 1..counts
 		line = input.gets
 		tmp.syswrite(line)
@@ -43,19 +43,10 @@ def combine(ignore,partition)
 	train = File.new("train#{ignore}.svm","w")
 	for i in 1..partition
 		if i != ignore
-			tmp = File.open("tmp#{i}", "r")
+			tmp = File.open("ref#{i}.svm", "r")
 			line = tmp.gets
 			while line != nil
-				row = line.split(" ")
-				if row[0] = '0'
-					row[0] = '1'
-				else
-					row[0] = '-1'
-				end
-				for j in 0..(row.length()-1)
-					train.syswrite(row[j]+" ")
-				end
-				train.syswrite("\n")
+				train.syswrite(line)
 				line = tmp.gets
 			end
 			tmp.close()
@@ -72,7 +63,7 @@ end
 # build files for testing
 for i in 1..partition
 	test = File.new("test#{i}.svm", "w")
-	tmp = File.open("tmp#{i}", "r")
+	tmp = File.open("ref#{i}.svm", "r")
 	line = tmp.gets
 	while line != nil
 		row = line.split(" ")
@@ -85,5 +76,4 @@ for i in 1..partition
 	end
 	test.close()
 	tmp.close()
-	File.delete("tmp#{i}")
 end
