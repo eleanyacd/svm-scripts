@@ -10,23 +10,23 @@
 require 'csv'
 
 def write_into_file(flag, row, output)
-	for i in 0..(row.length()-1)
-		if i != flag or flag == 0
+	if row[1] == '0' 
+		msg = '1 '
+	else
+		msg = '-1 '
+	end
+	output[flag].syswrite(msg)
+	for i in 2..(row.length()-1)
+		if (i-1) != flag or flag == 0
 			if i < flag or flag == 0:
-				j = i
+				j = i - 1
 			else
-				j = i -1
+				j = i - 2
 			end
 			if i == row.length()-1
-				msg = "#{j}:" + row[i] + "\n"
+				msg = "#{j}:" + (row[i].to_f).to_s + "\n"
 			elsif i > 0 
-				msg = "#{j}:" + row[i] + " "
-			else
-				if row[0] == '0' 
-					msg = "-1 "
-				else
-					msg = "1 "
-				end
+				msg = "#{j}:" + (row[i].to_f).to_s + " "
 			end
 			output[flag].syswrite(msg)
 		end
@@ -57,6 +57,7 @@ while count < 150000
 	end
 	
 	if miss > 1 or (miss ==1 and flag == 0)  # more than 1 column missing or y value is missing
+		count += 1
 		row = reader.shift
 		next
 	end
