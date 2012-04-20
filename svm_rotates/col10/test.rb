@@ -22,7 +22,7 @@ def getParam(threshold)
 p = -1
 r = -1
 model = []
-k = 2
+k = 1
 while k < 5
 for c in 1..6
 	for j in 1..6
@@ -47,7 +47,7 @@ for c in 1..6
 		end
 	end
 end
-k += 2
+k += 1
 end
 return model
 end
